@@ -245,13 +245,13 @@ class CentralScraper:
 
         # Script configurations: (script_name, timeout_seconds, processor_function, args)
         scrapers = [
-            ("btp_scraped_all3.py", 180, self.process_btp_data, []),
-            # (
-            #     "reddit_scraper_enhanced.py",
-            #     300,
-            #     self.process_reddit_data,
-            #     [],
-            # ),
+            # ("btp_scraped_all3.py", 180, self.process_btp_data, []),
+            (
+                "reddit_scraper_enhanced.py",
+                300,
+                self.process_reddit_data,
+                [],
+            ),
             # ("CitizenMatters.py", 180, self.process_citizen_matters_data, []),
         ]
 

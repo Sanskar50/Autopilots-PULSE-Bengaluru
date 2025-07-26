@@ -1,6 +1,26 @@
-google-generativeai
-flask
-flask-cors
-requests
-python-dotenv
+# Core FastAPI and web server dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Flask dependencies (for agent.py)
+flask==3.0.0
+flask-cors==4.0.0
+
+# Firebase dependencies
 firebase-admin==6.5.0
+python-dotenv==1.0.0
+
+# HTTP and requests
+requests==2.31.0
+
+# AI and ML dependencies
+google-generativeai==0.3.2
+
+# Web scraping dependencies
+selenium==4.15.0
+beautifulsoup4==4.12.2
+praw==7.7.1
+
+# Utility dependencies
+hashlib3==1.0.1

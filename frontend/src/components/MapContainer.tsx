@@ -36,32 +36,56 @@ const MapView: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:9000/static/reports.json")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("✅ Raw reports.json:", data);
+    const fetchReports = async () => {
+      try {
+        console.log("🔄 Fetching reports from Firebase Realtime Database...");
+        const response = await fetch("http://localhost:9000/feed");
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("✅ Raw feed data from Firebase:", data);
 
-        const mapped: Report[] = data
-          .filter((r: any) => r.lat && r.lng)
-          .map((r: any, index: number) => {
-            const lat = parseFloat(r.lat);
-            const lng = parseFloat(r.lng);
-            const media_file = r.media?.split("\\").pop();
+        if (data.status === "ok" && data.items) {
+          // Handle both array format and Firebase object format
+          let reportsArray = data.items;
+          
+          // If Firebase returns an object instead of array, convert it
+          if (typeof data.items === 'object' && !Array.isArray(data.items)) {
+            reportsArray = Object.values(data.items);
+            console.log("🔄 Converted Firebase object to array:", reportsArray);
+          }
 
-            console.log(`📌 Report ${index}: lat=${lat}, lng=${lng}, media=${media_file}`);
+          const mapped: Report[] = reportsArray
+            .filter((r: any) => r && r.lat && r.lng) // Additional null check
+            .map((r: any, index: number) => {
+              const lat = parseFloat(r.lat);
+              const lng = parseFloat(r.lng);
+              const media_file = r.media?.split("\\").pop();
 
-            return {
-              location: { lat, lng },
-              description: r.description,
-              media_file: media_file,
-              title: r.title 
-            };
-          });
+              console.log(`📌 Report ${index}: lat=${lat}, lng=${lng}, media=${media_file}`);
 
-        console.log("🗂️ Final mapped reports:", mapped);
-        setReports(mapped);
-      })
-      .catch((err) => console.error("❌ Error loading reports.json:", err));
+              return {
+                location: { lat, lng },
+                description: r.description,
+                media_file: media_file,
+                title: r.title 
+              };
+            });
+
+          console.log("🗂️ Final mapped reports:", mapped);
+          setReports(mapped);
+        } else {
+          console.error("❌ Invalid feed response format:", data);
+        }
+      } catch (err) {
+        console.error("❌ Error loading feed from Firebase:", err);
+      }
+    };
+
+    fetchReports();
   }, []);
 
   return (
