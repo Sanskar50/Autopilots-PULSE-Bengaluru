@@ -1,0 +1,226 @@
+{
+  "city": "Bangalore",
+  "source": "Bangalore Traffic Police",
+  "scraped_at": "2025-07-26 19:36:11",
+  "total_events": 27,
+  "events": [
+    {
+      "event_type": "Public",
+      "location": "Varthur Kodi towards Marathahalli",
+      "start_time": "06:00 Hrs 26-07-2025",
+      "end_time": "30-09-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Old Post Office Road",
+      "start_time": "06:00 Hrs 27-07-2025",
+      "end_time": "10-09-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Basecamp by Push Sports, Bengaluru",
+      "start_time": "16:00 Hrs 26-07-2025",
+      "end_time": "26-07-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Bhartiya Mall Of Bengaluru",
+      "start_time": "16:00 Hrs 25-07-2025",
+      "end_time": "31-07-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "NICE Grounds, Bengaluru",
+      "start_time": "18:30 Hrs 23-08-2025",
+      "end_time": "23-08-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "NICE Grounds, Bengaluru",
+      "start_time": "18:30 Hrs 23-08-2025",
+      "end_time": "23-08-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Chowdiah Memorial Hall, Sankey Road",
+      "start_time": "19:00 Hrs 06-09-2025",
+      "end_time": "06-09-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Bangalore International Exhibition Centre, Madhavara",
+      "start_time": "09:00 Hrs 01-08-2025",
+      "end_time": "03-08-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Bangalore International Exhibition Centre, Madhavara",
+      "start_time": "09:00 Hrs 26-07-2025",
+      "end_time": "27-07-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Chowdiah Memorial Hall, Sankey Road",
+      "start_time": "17:30 Hrs 01-08-2025",
+      "end_time": "01-08-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Phoenix Marketcity, Mahadevpura",
+      "start_time": "18:00 Hrs 13-09-2025",
+      "end_time": "13-09-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Chowdiah Memorial Hall, Sankey Road",
+      "start_time": "17:30 Hrs 27-07-2025",
+      "end_time": "27-07-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bellandur Junction to Marathalli Bridge",
+      "start_time": "06:00 Hrs 21-07-2025",
+      "end_time": "28-07-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Phoenix Marketcity, Mahadaevpura",
+      "start_time": "00:00 Hrs 09-08-2025",
+      "end_time": "09-08-2025"
+    },
+    {
+      "event_type": "Private",
+      "location": "Orion Mall, Bengaluru",
+      "start_time": "18:30 Hrs 26-07-2025",
+      "end_time": "26-07-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Devarabisanahalli",
+      "start_time": "00:00 Hrs 13-07-2025",
+      "end_time": "31-08-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Sadananda Bridge (Benniganahalli Railway Bridge )",
+      "start_time": "00:00 Hrs 14-06-2025",
+      "end_time": "16-09-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "From 26.05.2025 to 27.07.2025 work only 10:00pm to 6:00am.",
+      "start_time": "22:00 Hrs 26-05-2025",
+      "end_time": "27-07-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 20-10-2025",
+      "end_time": "20-10-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 22-10-2025",
+      "end_time": "22-10-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 07-10-2025",
+      "end_time": "07-10-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 02-10-2025",
+      "end_time": "02-10-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 02-10-2025",
+      "end_time": "02-10-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 01-10-2025",
+      "end_time": "01-10-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 05-09-2025",
+      "end_time": "05-09-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 27-08-2025",
+      "end_time": "27-08-2025"
+    },
+    {
+      "event_type": "Public",
+      "location": "Bengaluru",
+      "start_time": "00:00 Hrs 15-08-2025",
+      "end_time": "15-08-2025"
+    }
+  ],
+  "traffic_alerts": [
+    {
+      "title": "Vehicle Breakdown",
+      "description": "Vehicle Breakdown occurred at Mumbai Bengaluru Highway, Netaji Nagar",
+      "datetime": "19:03 Hrs 26-07-2025"
+    },
+    {
+      "title": "Vehicle Breakdown",
+      "description": "Vehicle Breakdown occurred at Begur Main Road, Narasimhaswamy Layout",
+      "datetime": "18:46 Hrs 26-07-2025"
+    }
+  ],
+  "traffic_news": [
+    {
+      "title": "Bengaluru’s Traffic Fix",
+      "description": "ORR Gridlock May Ease with Early Shifts and WFH Wednesdays? Bengaluru Police Think So  Oneindia",
+      "date": "24-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQaGNaOEh1RlB6eGpkVFFOZzZ5eUlYOWdqQkdrVU5vUURicE5TZi1ZTVowU2FkaV93SnpPQnRPR29oYTdzNU16YUI4T2ZlWkROcV9MVlkxdWZqWTFMSHEzWnh2RUVQZHRGcnRycldBM3hlN3Z6MDFETzFBM2wzQnh0dm5VbV8zSmNNMlpEd19MeWg0VTJCOXZjM0N6b0VVQTE2MFBaWnJHSVhJXy1NSGpNeFgyVTBSc2ktdEhKR0pLOWVRb0g2R1BoNXYwYlRSeHh4WDllaWxEX1VOOHhtNkpsVg?oc=5"
+    },
+    {
+      "title": "Bengaluru to get ‘WFH Wednesdays’? Officials mull options to untangle traffic chaos  Mint",
+      "description": "",
+      "date": "24-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNcDBoTWlCMjZzTmFwQUdqZklnemZiR2pLa1JOVkc2SkkyN1ppaUtvM1U5YmpDVzQ5MnBVdC16X21uazRpOFU0VUZENEl1WThQbV9EckV1VEktS0lUMm5ENkhjWmVwQzZGRlYyQUcyNVJ1Y29ISzloZnkzdFhBX3hKNWxwZDJPR1hHVDNjSkFCWGVoeXd1UlVPbW9rc09KVUNsRVBOSTBCZ0pPYzd3eUhJZy1NUTZBOGJnUFR4V2RfSTdMNlhEVUM0NkJIZml2cnlNSEHSAdcBQVVfeXFMUExqQk5FY1Q5ZG1oRnB3cmFKWWktOWtDMmtRbjd1WHpOUExWT09xdHE5WlpCMHZXZlhHLWxENTJDdmI5LWlKTkt2b3V4aG1wek9mUklNbU5zX3c4V2h6OU00bHozcGl0VWV3U1FFdEFfU1hScU94NnM2VlNMVktEcUdSY2VQaVdrNE9rTWMweUtuMl9nZ0duSnFVNzFiUmJ6ZGhFVkw2czRmTTZoTHJ4NWthNGZPTktXZ0MtdTJSbjYyNEtkcUw1RVc2UlZ3M2JDS2JCb05Kd3c?oc=5"
+    },
+    {
+      "title": "Bengaluru's Yellow Line Of Namma Metro To Launch Soon, Check All Stations And Routes  NDTV",
+      "description": "",
+      "date": "22-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOR1RWam1yZW82Q0kzcFNIa2hFTmFtYkd5X0lKSG1zU1lkNWdtUmd6ZUh3SGJiODdHaVFOd296S3lxRzNRZl9ia0xqRzlPaGVwVjdtVmdxUVlyMEI0NU5nOE56SWRHYVlzbE5GSFVybDdvT1JneWlZeVBKdWdaZ1lwekowYmdUTU1vQWhRZTh0R2h1YW14V2ZyYWhjRi1vY1pYQ3hMblk0UmJVSG1FV0t4VUtuTEIyT0U2NEJEYUZCc9IBxwFBVV95cUxORTdGQVloY0NINEpmSGRyZGZETmNraTl6YXR4NUZLTkN6WWZfNXBPV2tSWjZmUjNHTlpEWjBJRDV0ZUkxTTJUaVRxM2NOOWxVTENsRlhrOXlEM3VOeWtOQnlnejhmdWl6aGRLZnJHRldyUW9yaXJvODZITGNmZDNqUXR4d1ZZaFdJMXk4dzZHZEhaSDdCVHRLTFpyWWZOZkZpSEQ5WXVIM2I3bjdTdGNEOVMxSDYtdFN0MmlveEVaNm44VEIxQ0U4?oc=5"
+    },
+    {
+      "title": "Bengaluru goes full monsoon mode",
+      "description": "Cloud city unleashed as IMD predicts heavy rain this week  Hindustan Times",
+      "date": "22-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxOREk2QjgwbzRZQXpfZnJCLUdNSU9hejBZbWJucC1uNXBBX0hlTElkVmhzNE9TaWp5Z0RlVEJCZ21KNlhVNm12Qk5jejlBS1o2eVMzbFZGbzZHVl94LTJxMjhuRzB2U18zbFp6TDNSUWd1V3NEZE9vVEU1SklpWWVvMW9nUmgwYmZIeHlRclRELWdGdHkwWXhTSlI0OEVYSl9YYzltcVdoT3VteEowRy0taU5EbFdxdU1VOGdxd2x3dnkxVGp5X3o5YWc5ZG5DRjIwekJaSGRhbVJmZ08wdi1PM1VvTGxKOXIySkwxYnM2aFdoRTVFRGVB?oc=5"
+    },
+    {
+      "title": "Traffic police to crack the whip on civic contractors to ease road congestion  The Hindu",
+      "description": "",
+      "date": "21-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOV2U3c3RIdTFRVFZLVnJlN1FQMGE5aW1QNVd4NXFsQ2ZaT2E4NkZ5YndSY19KYlhDSHdZOWQ3TTlNZUtUNVc4MUhGT2ZwREhJZDNyUE1wVk00bXJCTy1WRVY2bTlwSmdPTkJnZUVyVUFIa0xYTnJqNWNmXzBlYW5rUk5RSTlkX2tFRkYtb0J0Z01kWEZwTUMtYVFnU2RER3Q0aDM4dG4xeFhFTnY2bjFSSmZMQkZuZjFRQWNYNDItaU1kTThNSFVuWWZseGp6U3VOSTRoMkFkRGtLazRwNC130gHmAUFVX3lxTE9aNGppb3VORzRqaDF2RG5SZmNBeW5QSURiUTNsRTJyT3ZabE50Q0N4YXFBbWRwdTV1Y18wbUtYeWZOTmlDV25NUUlVN3p1a2QydHloanpucUxhX2RTT1k4WVJfNWlSVG9vXzlJREdidGxTQ2M4Vm9TMHpsaTJBekI3eGpMQloyTkM5Ukh5OFVFdWR0bS1lWklhS1NSUU1xd3QtcnJraDFScXFJdGxpYUlsSHItZ3JTLVFTWTlHbUtGYnVHS25FRS03TmFGSXVkUnJKUzl2a3pEOVB5Y1RBS19CTkR3eDZn?oc=5"
+    },
+    {
+      "title": "Namma Metro Yellow Line Covering 18.82 Km Launching Soon",
+      "description": "See Full Route and Station List  Oneindia",
+      "date": "21-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPZy1iMFlqUUpkVDJqOEFtc2VWS1VBaklEZEhVLVR1amhmZndicEFsMnVEUVp1Rmt1NV9GMklBSG5SeUM0bVZMRmZuT2VvSnRodGFVR01iSUFzWTNxMHB0bEJKNDlnMzVsa24yWXl3QlhSd2NJa2lMTzhlQlZkZ3V3eXRmM2dhMHdmYktWT002aDJyNzhpRFR4SlM0MklFOGFhQTdXcHdUZ3RTcnVvLXFrY09MNWhUTjlZVHJCLWxtV2NJX1BXUk9CdjJDc3o2eUVwbEE?oc=5"
+    },
+    {
+      "title": "Bengaluru Traffic Fix",
+      "description": "Contractors Face Action for Bad Roads, Says Reddy  Deccan Herald",
+      "date": "20-07-2025",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOU3cxeERLckUybTR5M2FMclZQNEpUeVotRFp1d1dxd01EVWF4MlNMSXNXb0JQUmZZMXIwdml5T0tYR1czSkZtX04wODJ2VjNOSDdiNkxEUHFsdHN3SEVldlBWQ1lUM0RJcXhuLTUyUnZrT2dwU2JLVnF1MFpvS2xPQ1gwNm5WZF93YnRsWTMyNjA3UFowX2NGMHhZamktLWQ5VU0xamY5TmhCbHR0Z1RCUHFrLUpqQQ?oc=5"
+    }
+  ]
+}

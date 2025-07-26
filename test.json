@@ -1,0 +1,10 @@
+{
+    "title": "Bengaluru Traffic Alert: Severe Delays & WFH Initiative",
+    "description": "Expect extreme traffic congestion, especially on Outer Ring Road (ORR) in Bengaluru, with reports of 7.3 km commutes taking over an hour. Authorities are actively exploring solutions like 'WFH Wednesdays' and early shifts to ease the gridlock. Plan your travel, consider alternative routes, or work from home if possible to avoid significant delays.",
+    "type": "Traffic Advisory"
+  },
+  {
+    "title": "Public Health Advisory: Heat Stress Precautions",
+    "description": "With high temperatures leading to heat stress, especially for outdoor workers, all citizens are advised to take precautions. Stay hydrated by drinking plenty of water, avoid prolonged exposure to direct sun during peak hours, and check on vulnerable individuals. Be mindful of personal well-being during daily activities like commuting.",
+    "type": "Public Health / Weather Advisory"
+  }

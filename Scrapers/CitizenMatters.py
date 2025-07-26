@@ -2,19 +2,30 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import json
+import hashlib
+import datetime
+
+
+def generate_unique_id(data_dict):
+    """Generate unique ID based on content hash"""
+    content_string = json.dumps(data_dict, sort_keys=True)
+    unique_hash = hashlib.md5(content_string.encode()).hexdigest()
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    return f"cm_{timestamp}_{unique_hash[:8]}"
 
 
 def scrapCitizenMatters():
     """
     Scrape articles from Citizen Matters Bengaluru.
     """
+    all_articles = []
     pageNum = 1
     while pageNum <= 5:
         url = f"https://citizenmatters.in/city/bengaluru/page/{pageNum}/"
         print(f"Scraping page {pageNum} from {url}")
         headers = {"User-Agent": "Mozilla/5.0 (compatible; ScraperBot/1.0)"}
 
-        response = requests.get(url, headers=headers, verify=False)
+        response = requests.get(url, headers=headers, verify=False, timeout=30)
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
@@ -66,15 +77,29 @@ def scrapCitizenMatters():
                             date_tag.get_text(strip=True) if date_tag else "No date"
                         )
 
+                        data["type"] = "General News"
+                        data["unique_id"] = generate_unique_id(data)
+                        data["scraped_at"] = datetime.datetime.now().isoformat()
+
                         articles_data.append(data)
 
-            # Print results as JSON
+                    all_articles.extend(articles_data)
+
+            # Print results as JSON (for backwards compatibility)
             print(json.dumps(articles_data, indent=2))
             time.sleep(2)
             pageNum += 1
 
         else:
             print(f"Failed to retrieve the page, status code: {response.status_code}")
+
+    # Save all articles to JSON file
+    with open("citizen_matters_data.json", "w", encoding="utf-8") as f:
+        json.dump(all_articles, f, ensure_ascii=False, indent=2)
+
+    print(
+        f"🧾 Scraped {len(all_articles)} articles and saved to 'citizen_matters_data.json'"
+    )
 
 
 if __name__ == "__main__":

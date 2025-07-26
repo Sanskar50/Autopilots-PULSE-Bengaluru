@@ -1,0 +1,6 @@
+google-generativeai
+flask
+flask-cors
+requests
+python-dotenv
+firebase-admin==6.5.0

@@ -1,41 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import MapContainer from './MapContainer';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Activity, MapPin } from 'lucide-react';
+import MapView from './MapContainer';
 import ControlPanel from './ControlPanel';
-import ThemeToggle from './ThemeToggle';
 
 const AppLayout = () => {
+  const [activeTab, setActiveTab] = useState('feed');
+
   return (
     <div className="min-h-screen bg-gradient-secondary overflow-hidden">
-      {/* Header */}
-      <motion.header 
+      {/* Professional Header Card */}
+      <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="absolute top-0 left-0 right-0 z-50 p-6"
+        className="absolute top-6 left-12 z-40"
       >
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground tracking-tight">
-              PULSE BENGALURU
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Real-time city intelligence
-            </p>
+        <Card className="bg-background/95 backdrop-blur-sm shadow-strong border border-border/50">
+          <div className="px-6 py-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Activity className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground tracking-tight leading-none">
+                  PULSE BENGALURU
+                </h1>
+                <div className="flex items-center gap-2 mt-1">
+                  <MapPin className="h-3 w-3 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground font-medium">
+                    Real-time City Intelligence
+                  </p>
+                  <Badge variant="outline" className="text-xs bg-primary/5">
+                    Live
+                  </Badge>
+                </div>
+              </div>
+            </div>
           </div>
-          <ThemeToggle />
-        </div>
-      </motion.header>
+        </Card>
+      </motion.div>
 
-      {/* Main Layout */}
-      <div className="flex h-screen pt-20">
-        {/* Map Section - 70% width, full height */}
+       {/* Main Layout */}
+      <div className="h-screen relative">
+        {/* Map in background */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="w-[70%] h-full"
+          className="absolute inset-0 z-0"
         >
-          <MapContainer />
+          <MapView />
         </motion.div>
 
         {/* Floating Control Panel */}
@@ -43,11 +59,13 @@ const AppLayout = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
-          className="absolute top-24 right-6 z-40"
+          className="absolute top-6 right-6 z-50"
         >
-          <ControlPanel />
+          <ControlPanel onTabChange={setActiveTab} />
         </motion.div>
       </div>
+
+
     </div>
   );
 };

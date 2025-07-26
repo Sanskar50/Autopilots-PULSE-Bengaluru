@@ -47,28 +47,12 @@ const FeedCard = () => {
     return shuffled;
   };
 
-  // Fetch data from backend API
+  // Fetch data from Firebase collections
   const fetchData = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Try new backend API first
-      try {
-        const response = await fetch('http://localhost:5000/api/feed');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.feed.length > 0) {
-            setFeedItems(data.feed);
-            setCurrentIndex(0);
-            return;
-          }
-        }
-      } catch (error) {
-        console.log('Backend API not available, falling back to Firebase');
-      }
-      
-      // Fallback to direct Firebase access
       const collections = ['btp_traffic_news', 'reddit_reports', 'citizen_matters_articles'];
       const allData: FeedItem[] = [];
 
