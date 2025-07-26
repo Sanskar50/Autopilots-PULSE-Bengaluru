@@ -47,13 +47,23 @@ def extract_type_and_location(text):
                 return rep_type, match.group(0).title()
     return None, None
 
-def reddit_post_to_report(title, body, created_utc):
+def reddit_post_to_report(title, body, created_utc, post_url=None, comment_url=None):
     report_type, location = extract_type_and_location(title + ' ' + body)
     if not report_type: return None
     description = (title + '. ' + body).strip()
     if len(description) < 30: return None
     timestamp = datetime.datetime.utcfromtimestamp(created_utc).isoformat() + 'Z'
-    return {'type': report_type, 'location': location, 'description': description, 'timestamp': timestamp}
+    report = {
+        'type': report_type,
+        'location': location,
+        'description': description,
+        'timestamp': timestamp
+    }
+    if post_url:
+        report['post_url'] = post_url
+    if comment_url:
+        report['comment_url'] = comment_url
+    return report
 
 def process_comments(submission, is_new_post=False):
     """Process comments and return new comment count"""
@@ -82,7 +92,10 @@ def process_comments(submission, is_new_post=False):
         
         # Process comments
         for comment in comments_to_process:
-            r = reddit_post_to_report(submission.title, comment.body, comment.created_utc)
+            comment_url = f"https://reddit.com{submission.permalink}{comment.id}"
+            r = reddit_post_to_report(submission.title, comment.body, comment.created_utc, 
+                                    post_url=f"https://reddit.com{submission.permalink}",
+                                    comment_url=comment_url)
             if r:
                 r['source'] = 'comment'
                 r['post_id'] = post_id
@@ -108,7 +121,9 @@ def handle_submission(submission):
     
     if is_new_post:
         # Process the main post content
-        r = reddit_post_to_report(submission.title, submission.selftext, submission.created_utc)
+        post_url = f"https://reddit.com{submission.permalink}"
+        r = reddit_post_to_report(submission.title, submission.selftext, submission.created_utc, 
+                                post_url=post_url)
         if r:
             r['source'] = 'post'
             r['post_id'] = post_id
