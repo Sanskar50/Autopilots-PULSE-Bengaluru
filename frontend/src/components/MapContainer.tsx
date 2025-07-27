@@ -6,6 +6,7 @@ import {
   Popup, Tooltip
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { getApiUrl } from "@/lib/api";
 
 import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -39,7 +40,7 @@ const MapView: React.FC = () => {
     const fetchReports = async () => {
       try {
         console.log("🔄 Fetching reports from Firebase Realtime Database...");
-        const response = await fetch("http://localhost:9000/feed");
+        const response = await fetch(getApiUrl("/feed"));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -137,7 +138,7 @@ const MapView: React.FC = () => {
     </p>
     {r.media_file ? (
       <img
-        src={`http://localhost:9000/uploads/${r.media_file}`}
+        src={getApiUrl(`/uploads/${r.media_file}`)}
         alt="Citizen Report"
         style={{
           width: "100%",

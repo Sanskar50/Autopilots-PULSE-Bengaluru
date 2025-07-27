@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { getApiUrl } from '@/lib/api';
 import {
   Select,
   SelectContent,
@@ -103,8 +104,7 @@ const SubmitForm = () => {
     payload.append('lat', formData.lat);
     payload.append('lng', formData.lng);
 
-
-    await fetch('http://localhost:9000/submit', {
+    await fetch(getApiUrl("/submit"), {
       method: 'POST',
       body: payload
     });
