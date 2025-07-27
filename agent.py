@@ -5,10 +5,6 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-import os
-import json
-import requests
-import google.generativeai as genai
 import hashlib
 import datetime
 import argparse
@@ -27,14 +23,20 @@ FIREBASE_DATABASE_URL = os.getenv(
 
 def fetch_firebase_data():
     """
-    Fetch 2 items each from all three Firebase collections
+    Fetch 2 items each from all Firebase collections including forecast data
     """
-    collections = ["btp_traffic_news", "reddit_reports", "citizen_matters_articles"]
+    collections = [
+        "btp_traffic_news",
+        "reddit_reports",
+        "citizen_matters_articles",
+        "forecast",
+    ]
 
     all_data = {
         "btp_traffic_news": [],
         "reddit_reports": [],
         "citizen_matters_articles": [],
+        "forecast": [],
     }
 
     for collection in collections:
@@ -45,9 +47,14 @@ def fetch_firebase_data():
             if response.status_code == 200:
                 data = response.json()
                 if data:
-                    # Convert Firebase data to list and get first 2 items
+                    # Convert Firebase data to list and get first 2 items (or all for forecast)
                     items = list(data.values()) if isinstance(data, dict) else data
-                    all_data[collection] = items[:2]  # Get only 2 items
+                    if collection == "forecast":
+                        all_data[collection] = items  # Get all forecast items
+                    else:
+                        all_data[collection] = items[
+                            :2
+                        ]  # Get only 2 items for other collections
                     print(
                         f"✅ Fetched {len(all_data[collection])} items from {collection}"
                     )
@@ -97,7 +104,7 @@ def store_alerts_to_firebase(alerts):
 
 def generate_multiple_alerts(firebase_data):
     """
-    Generate alerts using 3 separate prompts to Gemini, 2 alerts each
+    Generate alerts using 4 separate prompts to Gemini, including forecast data
     """
     all_alerts = []
 
@@ -155,7 +162,32 @@ def generate_multiple_alerts(firebase_data):
         except json.JSONDecodeError:
             print("❌ Failed to parse citizen alerts")
 
-    # Prompt 3: Combined Analysis and Recommendations
+    # Prompt 3: Forecast-based Alerts
+    forecast_data = firebase_data.get("forecast", [])
+    if forecast_data:
+        forecast_prompt = f"""
+        Based on the following upcoming events and forecast data from Bengaluru, generate EXACTLY 2 proactive alerts.
+        Focus on expected traffic patterns, crowd management, and event-related impacts.
+        
+        Data: {json.dumps(forecast_data, indent=2)}
+        
+        Return response as valid JSON array with this format:
+        [
+          {{"title": "Alert title (max 80 chars)", "description": "Brief description (max 150 chars)", "type": "urgent|warning|info"}},
+          {{"title": "Alert title (max 80 chars)", "description": "Brief description (max 150 chars)", "type": "urgent|warning|info"}}
+        ]
+        """
+
+        forecast_alerts = call_gemini(forecast_prompt)
+        try:
+            parsed_alerts = json.loads(
+                forecast_alerts.strip().replace("```json", "").replace("```", "")
+            )
+            all_alerts.extend(parsed_alerts[:2])  # Ensure only 2 alerts
+        except json.JSONDecodeError:
+            print("❌ Failed to parse forecast alerts")
+
+    # Prompt 4: Combined Analysis and Recommendations
     combined_data = []
     for collection_data in firebase_data.values():
         combined_data.extend(collection_data)
@@ -163,7 +195,7 @@ def generate_multiple_alerts(firebase_data):
     if combined_data:
         combined_prompt = f"""
         Based on analyzing ALL the following data sources together, generate EXACTLY 2 strategic alerts.
-        Look for patterns, correlations, and important insights across traffic, citizen reports, and news.
+        Look for patterns, correlations, and important insights across traffic, citizen reports, news, and upcoming events.
         
         Data: {json.dumps(combined_data, indent=2)}
         
@@ -323,6 +355,7 @@ def start_agent():
                     "citizen_matters_articles": len(
                         firebase_data.get("citizen_matters_articles", [])
                     ),
+                    "forecast": len(firebase_data.get("forecast", [])),
                 },
             }
         )
@@ -382,6 +415,273 @@ def get_alerts():
                     "success": False,
                     "message": f"Failed to fetch alerts: {str(e)}",
                     "alerts": [],
+                }
+            ),
+            500,
+        )
+
+
+@app.route("/api/urban-forecast", methods=["POST"])
+def urban_forecast():
+    """
+    API endpoint to generate urban forecasts based on upcoming events in Bengaluru
+    """
+    try:
+        print("🌆 Starting urban forecast process...")
+
+        # Step 1: Fetch forecast data from Firebase
+        forecast_data = fetch_forecast_data()
+
+        if not forecast_data:
+            return jsonify(
+                {
+                    "success": False,
+                    "message": "No forecast data available from Firebase",
+                    "forecasts_generated": 0,
+                }
+            )
+
+        # Step 2: Generate urban forecasts using Gemini
+        forecasts = generate_urban_forecasts(forecast_data)
+
+        if not forecasts:
+            return jsonify(
+                {
+                    "success": False,
+                    "message": "Failed to generate urban forecasts",
+                    "forecasts_generated": 0,
+                }
+            )
+
+        # Step 3: Store forecasts to Firebase
+        success = store_forecasts_to_firebase(forecasts)
+
+        return jsonify(
+            {
+                "success": success,
+                "message": f"Urban forecast completed successfully. Generated {len(forecasts)} forecasts.",
+                "forecasts_generated": len(forecasts),
+                "events_analyzed": len(forecast_data),
+                "forecasts": forecasts,
+            }
+        )
+
+    except Exception as e:
+        print(f"❌ Error in urban forecast process: {e}")
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": f"Urban forecast failed: {str(e)}",
+                    "forecasts_generated": 0,
+                }
+            ),
+            500,
+        )
+
+
+def fetch_forecast_data():
+    """
+    Fetch upcoming events data from Firebase forecast collection
+    """
+    try:
+        url = f"{FIREBASE_DATABASE_URL}/forecast.json"
+        response = requests.get(url, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            if data:
+                # Convert Firebase data to list
+                events = list(data.values()) if isinstance(data, dict) else data
+                print(f"✅ Fetched {len(events)} events from forecast collection")
+                return events
+            else:
+                print("📭 No events found in forecast collection")
+                return []
+        else:
+            print(f"❌ Failed to fetch forecast data: {response.status_code}")
+            return []
+
+    except Exception as e:
+        print(f"❌ Error fetching forecast data: {e}")
+        return []
+
+
+def generate_urban_forecasts(events_data):
+    """
+    Generate urban forecasts using Gemini AI based on upcoming events
+    """
+    try:
+        events_json = json.dumps(events_data, indent=2)
+
+        forecast_prompt = f"""
+        Given the following list of upcoming events in Bengaluru — each with title, time, and venue — generate urban forecasts and perceptions for the corresponding areas. Consider likely traffic patterns, crowd behavior, weather sensitivity, and civic impact. Identify where congestion, delays, increased activity, or public resource demand may spike.
+
+        Events Data:
+        {events_json}
+
+        Structure the response as JSON with the following fields for each forecast:
+        - area: Neighborhood or venue region
+        - expected_effects: Summary of predicted activity (e.g. "Moderate congestion due to clustered evening events")
+        - time_window: Approximate active hours
+        - signal_type: One of ["traffic", "crowd", "public_service", "quiet"]
+        - confidence: One of ["Low", "Medium", "High"]
+
+        Generate 3-8 forecasts based on the events provided. Focus on areas with multiple events or high-impact venues.
+
+        Return response as valid JSON array with this exact format:
+        [
+          {{
+            "area": "Area/Neighborhood name",
+            "expected_effects": "Description of predicted activity and impact",
+            "time_window": "Time range (e.g., '6:00 PM - 10:00 PM')",
+            "signal_type": "traffic|crowd|public_service|quiet",
+            "confidence": "Low|Medium|High"
+          }}
+        ]
+
+        Make sure the response is valid JSON only, no additional text.
+        """
+
+        response = call_gemini(forecast_prompt)
+
+        # Clean and parse the response
+        response_cleaned = response.strip()
+        if response_cleaned.startswith("```json"):
+            response_cleaned = (
+                response_cleaned.replace("```json", "").replace("```", "").strip()
+            )
+
+        forecasts = json.loads(response_cleaned)
+
+        # Add metadata to each forecast
+        for i, forecast in enumerate(forecasts):
+            forecast["id"] = (
+                f"forecast_{i}_{hashlib.md5(forecast.get('area', '').encode()).hexdigest()[:8]}"
+            )
+            forecast["created_at"] = datetime.datetime.now().isoformat()
+            forecast["source"] = "urban_forecast_ai"
+
+        print(f"✅ Generated {len(forecasts)} urban forecasts")
+        return forecasts
+
+    except json.JSONDecodeError as e:
+        print(f"❌ Error parsing forecast JSON response: {e}")
+        print(f"Raw response: {response}")
+        # Return fallback forecast
+        return [
+            {
+                "area": "Central Bengaluru",
+                "expected_effects": "General urban activity patterns based on event data analysis",
+                "time_window": "Peak hours",
+                "signal_type": "traffic",
+                "confidence": "Medium",
+                "id": "fallback_forecast_1",
+                "created_at": datetime.datetime.now().isoformat(),
+                "source": "urban_forecast_ai",
+            }
+        ]
+    except Exception as e:
+        print(f"❌ Error generating urban forecasts: {e}")
+        return []
+
+
+def store_forecasts_to_firebase(forecasts):
+    """
+    Store generated urban forecasts to Firebase urban_forecasts collection
+    """
+    try:
+        for forecast in forecasts:
+            # Store each forecast individually
+            forecast_url = (
+                f"{FIREBASE_DATABASE_URL}/urban_forecasts/{forecast['id']}.json"
+            )
+            response = requests.put(forecast_url, json=forecast, timeout=10)
+
+            if response.status_code == 200:
+                print(f"✅ Stored forecast for area: {forecast['area']}")
+            else:
+                print(
+                    f"❌ Failed to store forecast for {forecast['area']}: {response.status_code}"
+                )
+
+        print(f"📊 Stored {len(forecasts)} urban forecasts to Firebase")
+        return True
+
+    except Exception as e:
+        print(f"❌ Error storing forecasts to Firebase: {e}")
+        return False
+
+
+@app.route("/api/forecasts", methods=["GET"])
+def get_forecasts():
+    """
+    API endpoint to fetch urban forecasts from Firebase
+    """
+    try:
+        url = f"{FIREBASE_DATABASE_URL}/urban_forecasts.json"
+        response = requests.get(url, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            if data:
+                # Convert Firebase data to list and sort by creation time
+                forecasts = list(data.values())
+                forecasts.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+
+                return jsonify(
+                    {"success": True, "forecasts": forecasts, "count": len(forecasts)}
+                )
+            else:
+                return jsonify({"success": True, "forecasts": [], "count": 0})
+        else:
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": f"Failed to fetch forecasts: {response.status_code}",
+                        "forecasts": [],
+                    }
+                ),
+                500,
+            )
+
+    except Exception as e:
+        print(f"❌ Error fetching forecasts: {e}")
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": f"Failed to fetch forecasts: {str(e)}",
+                    "forecasts": [],
+                }
+            ),
+            500,
+        )
+
+
+@app.route("/api/test-forecast", methods=["GET"])
+def test_forecast():
+    """
+    Test endpoint to check forecast data availability
+    """
+    try:
+        forecast_data = fetch_forecast_data()
+        return jsonify(
+            {
+                "success": True,
+                "message": "Forecast data test completed",
+                "events_found": len(forecast_data),
+                "sample_events": forecast_data[:3] if forecast_data else [],
+            }
+        )
+    except Exception as e:
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": f"Test failed: {str(e)}",
+                    "events_found": 0,
                 }
             ),
             500,

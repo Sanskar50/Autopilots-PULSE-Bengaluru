@@ -6,8 +6,9 @@ import { useToast } from '@/components/ui/use-toast';
 import FeedCard from './tabs/FeedCard';
 import SubmitForm from './tabs/SubmitForm';
 import PulseSection from './tabs/PulseSection';
+import UrbanForecastSection from './tabs/UrbanForecastSection';
 import ThemeToggle from './ThemeToggle';
-import { Activity, Send, Zap } from 'lucide-react';
+import { Activity, Send, Zap, TrendingUp } from 'lucide-react';
 
 interface ControlPanelProps {
   onTabChange?: (tab: string) => void;
@@ -20,6 +21,18 @@ const ControlPanel = ({ onTabChange }: ControlPanelProps) => {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     onTabChange?.(value);
+  };
+
+  const handleUrbanForecastSuccess = () => {
+    // Stay on urban tab when forecast completes
+    setActiveTab('urban');
+    
+    // Show success toast
+    toast({
+      title: "🌆 Urban forecasts generated!",
+      description: "AI has successfully analyzed events and created urban forecasts.",
+      duration: 4000,
+    });
   };
 
   const handleAgentSuccess = () => {
@@ -57,7 +70,7 @@ const ControlPanel = ({ onTabChange }: ControlPanelProps) => {
       </div>
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="mx-4 mt-3 mb-0 bg-secondary/30 border border-border/20 w-[calc(100%-2rem)] grid grid-cols-3">
+        <TabsList className="mx-4 mt-3 mb-0 bg-secondary/30 border border-border/20 w-[calc(100%-2rem)] grid grid-cols-4">
           <TabsTrigger 
             value="feed" 
             className="flex items-center gap-1 data-[state=active]:bg-background data-[state=active]:shadow-soft text-xs"
@@ -79,9 +92,16 @@ const ControlPanel = ({ onTabChange }: ControlPanelProps) => {
             <Zap className="h-3 w-3" />
             PULSE
           </TabsTrigger>
+          <TabsTrigger 
+            value="urban" 
+            className="flex items-center gap-1 data-[state=active]:bg-background data-[state=active]:shadow-soft text-xs"
+          >
+            <TrendingUp className="h-3 w-3" />
+            Urban
+          </TabsTrigger>
         </TabsList>
 
-        <div className={`p-4 ${activeTab === 'submit' ? 'h-[500px] overflow-hidden' : activeTab === 'pulse' ? 'h-[600px] overflow-hidden' : ''}`}>
+        <div className={`p-4 ${activeTab === 'submit' ? 'h-[500px] overflow-hidden' : (activeTab === 'pulse' || activeTab === 'urban') ? 'h-[600px] overflow-hidden' : ''}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -90,7 +110,7 @@ const ControlPanel = ({ onTabChange }: ControlPanelProps) => {
               animate="visible"
               exit="exit"
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className={activeTab === 'submit' || activeTab === 'pulse' ? 'h-full' : ''}
+              className={activeTab === 'submit' || activeTab === 'pulse' || activeTab === 'urban' ? 'h-full' : ''}
             >
               <TabsContent value="feed" className="mt-0">
                 <FeedCard />
@@ -100,6 +120,9 @@ const ControlPanel = ({ onTabChange }: ControlPanelProps) => {
               </TabsContent>
               <TabsContent value="pulse" className="mt-0 h-full">
                 <PulseSection onAgentSuccess={handleAgentSuccess} />
+              </TabsContent>
+              <TabsContent value="urban" className="mt-0 h-full">
+                <UrbanForecastSection onForecastSuccess={handleUrbanForecastSuccess} />
               </TabsContent>
             </motion.div>
           </AnimatePresence>
