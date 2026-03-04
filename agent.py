@@ -220,7 +220,7 @@ def generate_multiple_alerts(firebase_data):
 
 
 def call_gemini(prompt):
-    genai.configure(api_key="AIzaSyCzz9R9NyG-hwqTOqLJ7zzbjmQnxTSxMRI")
+    genai.configure(api_key=os.getenv("GENAI_API_KEY"))
     model = genai.GenerativeModel(model_name="gemini-2.5-flash")
 
     try:
